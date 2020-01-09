@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import './App.css';
+import classes from './App.module.css';
 import Persons from '../components/Persons/Persons';
-import styled from 'styled-components';
-// import Radium, {StyleRoot} from 'radium';
-
+import Cockpit from '../components/Cockpit/Cockpit';
 class App extends Component {
   state = {
     persons: [
@@ -15,20 +13,7 @@ class App extends Component {
     showPersons: false
   }
 
-  // switchNameHandler = (newName) => {
-  //   // console.log('Was clicked!');
-  //   // DON'T DO THIS: this.state.persons[0].name = 'Maximilian';
-  //   this.setState( {
-  //     persons: [
-  //       { name: newName, age: 28 },
-  //       { name: 'Manu', age: 29 },
-  //       { name: 'Stephanie', age: 27 }
-  //     ]
-  //   } )
-  // }
-
   deletePersonHandler = (personIndex) => {
-    //const persons = this.state.persons.slice();
     const persons = [...this.state.persons];
     persons.splice(personIndex, 1);
     this.setState({persons: persons});
@@ -39,7 +24,6 @@ class App extends Component {
       return p.id === id;
     });
 
-    // const person = Object.assign({}, this.state.persons[personIndex]);
     const person = {...this.state.persons[personIndex]};
     person.name = event.target.value;
 
@@ -55,76 +39,28 @@ class App extends Component {
   }
 
   render () {
-   
-    /*
-    const style = {
-      backgroundColor: 'green',
-      font: 'inherit',
-      border: '1px solid blue',
-      padding: '8px',
-      cursor: 'pointer',
-      ':hover': {
-        backgroundColor: 'lightgreen',
-        color: 'black'
-      }
-    }; */
-
-    const StyledButton = styled.button`
-      background-color: ${props => props.toggleColor ? 'red' : 'green'};
-      font: inherit;
-      border: 1px solid blue;
-      padding: 8px;
-      cursor: pointer;
-
-      &:hover {
-        background-color:  ${props => props.toggleColor ? 'salmon' : 'lightgreen'};
-        color: black
-      }
-    `;
-
     let persons = null;
 
     if(this.state.showPersons) {
-      // style.backgroundColor = 'red';
-      // style[':hover'] = {
-      //   backgroundColor: 'salmon',
-      //   color: 'white'
-      // };
-      
       persons = (
-        <div>
           <Persons 
             persons={this.state.persons}
             clicked={this.state.deletePersonHandler}
             changed={this.state.nameChangedHandler} />
-        </div>
       );
     }
 
-    const classes = [];
-
-    if(this.state.persons.length <= 2) {
-      classes.push('red');
-    }
-    if(this.state.persons.length <=1) {
-      classes.push('bold');
-    }
-
     return (
-      // <StyleRoot>
-        <div className="App">
-          <h1>Hi, I'm a React App</h1>
-          <p className={classes.join(' ')}>This is really working!</p>
-          <StyledButton 
-            toggleColor={this.state.showPersons}
-            onClick={this.togglePersonHandler}>Toggle persons</StyledButton>
+      <div className={classes.App}>
+            <Cockpit
+              showPersons={this.state.showPersons}
+              persons={this.state.persons}
+              clicked={this.state.togglePersonHandler}
+               />
             {persons}
         </div>
-      // </StyleRoot>
     );
-    // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Does this work now?'));
   }
 }
 
-// export default Radium(App);
 export default App;
