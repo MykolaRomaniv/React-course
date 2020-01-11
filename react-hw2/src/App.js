@@ -4,15 +4,13 @@ import Validation from './Validation/Validation';
 import Char from './Char/Char';
 class App extends Component {
   state = {
-    text: '',
-    textLength: 0,
+    text: ''
   }
   
   textChangeHandler = (event) => {
     const letters = event.target.value.split('');
     this.setState({
       text: letters.join(''),
-      textLength: letters.length
     })
   }
 
@@ -20,8 +18,7 @@ class App extends Component {
     let newLetters = this.state.text.split('');
     newLetters.splice(index, 1);
     this.setState({
-      text: newLetters.join(''),
-      textLength: newLetters.length
+      text: newLetters.join('')
     })
   }
 
@@ -30,6 +27,7 @@ class App extends Component {
 
     const charList = letters.map((letter, index) => {
       return <Char
+        key={index}
         letter={letter} 
         click={() => {this.deleteLetterHandler(index)}} />
     });
@@ -46,9 +44,9 @@ class App extends Component {
         </ol>
         <p>Hint: Keep in mind that JavaScript strings are basically arrays!</p>
         <input type='text' onChange={this.textChangeHandler} value={this.state.text} />
-        <p>{this.state.textLength}</p>
+        <p>{this.state.text.length}</p>
         <Validation
-          textLength={this.state.textLength} />
+          textLength={this.state.text.length} />
           {charList}
       </div>
     );
